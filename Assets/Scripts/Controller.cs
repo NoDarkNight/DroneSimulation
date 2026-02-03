@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
     [SerializeField] Rigidbody droneRB;
     [SerializeField] Transform droneTransform;
     [Header("Drone Target")]
-    [SerializeField] Transform target;
+    [HideInInspector] public Transform target;
 
     [Header("Propellor References")]
     [SerializeField] PropScript FRControl;
