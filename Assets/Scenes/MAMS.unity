@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dronePrefab: {fileID: 1940983014982786414, guid: 39737e7bd224bb14fbc15a5b9ed60c89, type: 3}
   targetPrefab: {fileID: 7755478886230281510, guid: 8b5c7f87c929d7c4c801d255de9eec46, type: 3}
-  numberOfDrones: 49
+  numberOfDrones: 51
   floorSpacing: 2.5
   formationManager: {fileID: 258899680}
 --- !u!114 &258899680
@@ -195,8 +195,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droneTargets: []
-  spacing: 2
-  centerOffset: {x: 0, y: 0, z: 0}
+  spacing: 4
+  centerOffset: {x: 0, y: 15, z: 0}
   formations:
   - {fileID: 2800000, guid: 899eca4da7a38e0408e1d224655f3bc3, type: 3}
   - {fileID: 2800000, guid: ee03a9e1c1574d442878261c77f284e4, type: 3}
@@ -289,13 +289,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09229599, y: 0.7010574, z: 0.09229599, w: -0.7010574}
-  m_LocalPosition: {x: 30, y: 3, z: 22.5}
+  m_LocalRotation: {x: -0.08715578, y: 0, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: 5, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1871562863}
-  m_LocalEulerAnglesHint: {x: -15, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: -10, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0

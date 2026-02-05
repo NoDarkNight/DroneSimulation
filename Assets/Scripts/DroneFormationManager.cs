@@ -34,7 +34,7 @@ public class DroneFormationManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            curFormation = curFormation + 1 % formations.Length;
+            curFormation = (curFormation + 1) % formations.Length;
             print(curFormation);
             UpdateFormation(formations[curFormation]);
         }
@@ -53,7 +53,11 @@ public class DroneFormationManager : MonoBehaviour
             {
                 if (image.GetPixel(x, y).a > 0.5f && droneIndex < droneTargets.Count)
                 {
-                    Vector3 newPos = new Vector3(x * spacing, y * spacing, 0) + centerOffset;
+                    Vector3 newPos = new Vector3(
+                    (x - width / 2f) * spacing,
+                    (y - height / 2f) * spacing,
+                    0) + centerOffset;
+
                     currentTargetPositions.Add(newPos);
                     droneIndex++;
                     
@@ -64,7 +68,8 @@ public class DroneFormationManager : MonoBehaviour
         // Handle unused 
         for (int i = droneIndex; i < droneTargets.Count; i++)
         {
-            currentTargetPositions.Add(new Vector3(i * spacing, 0, 0)); 
+            Vector3 standbyPos = new Vector3(i*-1f, 0.5f, 0);
+            currentTargetPositions.Add(standbyPos);
         }
     }
 }

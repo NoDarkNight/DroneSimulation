@@ -435,7 +435,6 @@ GameObject:
   - component: {fileID: 119196405321048192}
   - component: {fileID: 4678301475633136117}
   - component: {fileID: 3644463761602446059}
-  - component: {fileID: 9052332526563791466}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -523,6 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c56ab281946dd4e8e68b5d9184af69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawDebug: 0
   FRTransform: {fileID: 4953201114481078852}
   FLTransform: {fileID: 3254032746458708810}
   BRTransform: {fileID: 6272927624129824166}
@@ -554,26 +554,13 @@ MonoBehaviour:
   constants: {fileID: 4460673469003935995}
   rotationController: {fileID: 4678301475633136117}
   windController: {fileID: 0}
-  proportionalConst: 25
-  integralConst: 0.1
-  derivativeConst: 25
-  smoothed: 0
+  proportionalConst: 20
+  integralConst: 0.01
+  derivativeConst: 30
+  smoothed: 1
   stabilize: 0
   windEnabled: 0
---- !u!114 &9052332526563791466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1940983014982786414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86cc28a4639d76f4b87ce59d405673c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ON: 1
-  dronController: {fileID: 3644463761602446059}
+  drawDebug: 0
 --- !u!1 &3925062979888515623
 GameObject:
   m_ObjectHideFlags: 0
@@ -8798,7 +8785,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 10
   m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

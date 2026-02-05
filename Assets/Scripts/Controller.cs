@@ -35,6 +35,7 @@ public class Controller : MonoBehaviour
     public bool smoothed;
     public bool stabilize;
     public bool windEnabled;
+    public bool drawDebug;
 
     // Store total of errors
     private Vector3 integral;
@@ -63,8 +64,7 @@ public class Controller : MonoBehaviour
         } else {
             smoothedTarget = target.position;
         }
-        // Draw target
-        Debug.DrawRay(droneTransform.position, smoothedTarget - droneTransform.position, Color.red);
+        
 
 
         ///// GET MOVEMENT VECTOR
@@ -83,12 +83,17 @@ public class Controller : MonoBehaviour
         // Check for necessary stabilization if turned on
         if (stabilize && Vector3.Angle(Vector3.up, droneTransform.up) > 40)
         {
-            float angleDiffRads = (Vector3.Angle(Vector3.up, droneTransform.up) - 40)/180.0f*Mathf.PI;
+            float angleDiffRads = (Vector3.Angle(Vector3.up, droneTransform.up) - 40) / 180.0f * Mathf.PI;
             movementVector = Vector3.RotateTowards(movementVector.normalized, Vector3.up, angleDiffRads, 0.0f) * movementVector.magnitude;
             Debug.Log(Vector3.Angle(movementVector, Vector3.up));
         }
 
-        Debug.DrawRay(droneTransform.position, movementVector, Color.green);
+        if (drawDebug)
+        {
+            Debug.DrawRay(droneTransform.position, smoothedTarget - droneTransform.position, Color.red);
+            Debug.DrawRay(droneTransform.position, movementVector, Color.green);
+
+        }
 
         // Get rotational acceleration
         Vector3 rotationalAcceleration = rotationController.RotateTo(movementVector);

@@ -21,7 +21,6 @@ public class DroneSpawner : MonoBehaviour
 
     void SpawnSwarm()
     {
-        // formationManager.droneTargets = new List<Transform>();
 
         int rows = Mathf.CeilToInt(Mathf.Sqrt(numberOfDrones));
 

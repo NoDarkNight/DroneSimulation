@@ -4,6 +4,7 @@ using UnityEngine.ProBuilder;
 
 public class RotationController : MonoBehaviour
 {
+    public bool drawDebug;
     [Header("Prop Transforms")]
     [SerializeField] Transform FRTransform;
     [SerializeField] Transform FLTransform;
@@ -33,7 +34,10 @@ public class RotationController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.DrawRay(droneTransform.position, droneTransform.up, Color.blue);
+        if (drawDebug)
+        {
+            Debug.DrawRay(droneTransform.position, droneTransform.up, Color.blue);
+        }
     }
 
     private double GetThrust(Transform propTransform, Vector3 rotationAxis, Vector3 joystickAxis) {
@@ -70,7 +74,10 @@ public class RotationController : MonoBehaviour
         // Get the "difference" between the drone's intended spin plane and its current heading. This will need to be corrected to 0.
         Vector3 alignedSpin = Vector3.Dot(droneRB.angularVelocity, rotationAxis) * rotationAxis;
         Vector3 perpendicularSpin = droneRB.angularVelocity - alignedSpin;
-        Debug.DrawRay(droneTransform.position, perpendicularSpin, Color.white);
+        if (drawDebug)
+        {
+            Debug.DrawRay(droneTransform.position, perpendicularSpin, Color.white);
+        }
         double perpendicularSpeed = perpendicularSpin.magnitude; // Acts as error
 
         Vector3 spinAccel = rotationAxis * (float)((proportionalConst * error) + (derivativeConst * derivative));
@@ -87,10 +94,14 @@ public class RotationController : MonoBehaviour
 
         Vector3 rotationAxis = accelerationVector.normalized;
 
-        Debug.DrawRay(droneTransform.position, rotationAxis, Color.magenta);
 
         Vector3 joystickAxis = Vector3.Cross(droneTransform.up, rotationAxis);
-        Debug.DrawRay(droneTransform.position, joystickAxis, Color.yellow);
+
+        if (drawDebug)
+        {
+            Debug.DrawRay(droneTransform.position, rotationAxis, Color.magenta);
+            Debug.DrawRay(droneTransform.position, joystickAxis, Color.yellow);
+        }
 
         double FRThrust = GetThrust(FRTransform, rotationAxis, joystickAxis) * accelerationVector.magnitude;
         double FLThrust = GetThrust(FLTransform, rotationAxis, joystickAxis) * accelerationVector.magnitude;
