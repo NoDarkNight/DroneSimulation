@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
     [SerializeField] Rigidbody droneRB;
     [SerializeField] Transform droneTransform;
     [Header("Drone Target")]
-    [HideInInspector] public Transform target;
+    public Transform target;
 
     [Header("Propellor References")]
     [SerializeField] PropScript FRControl;
@@ -24,7 +24,6 @@ public class Controller : MonoBehaviour
     [SerializeField] RotationController rotationController;
     [SerializeField] WindController windController;
 
-
     [Header("PID Constants")]
     //////// MOVEMENT PID
     public double proportionalConst;
@@ -37,46 +36,59 @@ public class Controller : MonoBehaviour
     public bool windEnabled;
     public bool drawDebug;
 
+    [Header("Safety Settings")]
+    [Tooltip("Height in meters below which rotation is disabled to prevent flipping.")]
+    public float minFlightAltitude = 0.5f;
+
     // Store total of errors
     private Vector3 integral;
-
-
     private Vector3 smoothedTarget;
 
-
-    double ThrustToPower(double thrust) {
-        if (thrust < 0) {
-            return -Math.Pow(-thrust/constants.efficency, 3f/2f) * constants.drag;
+    double ThrustToPower(double thrust)
+    {
+        if (thrust < 0)
+        {
+            return -Math.Pow(-thrust / constants.efficency, 3f / 2f) * constants.drag;
         }
-        return Math.Pow(thrust/constants.efficency, 3f/2f) * constants.drag;
+        return Math.Pow(thrust / constants.efficency, 3f / 2f) * constants.drag;
     }
-
 
     void FixedUpdate()
     {
         // Apply wind
         Vector3 wind = windEnabled ? windController.GetWind(droneTransform.position) : Vector3.zero;
         droneRB.AddForce(wind);
+        if (drawDebug) Debug.DrawRay(droneTransform.position, wind, Color.cyan);
 
         // Use smoothed target if smoothed is checked on
-        if (smoothed) {
-            smoothedTarget = Vector3.Lerp(smoothedTarget, target.position, 0.1f); 
-        } else {
+        if (smoothed)
+        {
+            smoothedTarget = Vector3.Lerp(smoothedTarget, target.position, 0.1f);
+        }
+        else
+        {
             smoothedTarget = target.position;
         }
-        
-
 
         ///// GET MOVEMENT VECTOR
         Vector3 positionDiff = smoothedTarget - droneTransform.position;
 
-        Vector3 proportional = positionDiff ;               // P term
-        integral += positionDiff;                           // I term
-        Vector3 derivative = -droneRB.linearVelocity;       // D term
-        
+        if (droneTransform.position.y > minFlightAltitude)
+        {
+            integral += positionDiff;
+        }
+        else
+        {
+            integral = Vector3.zero; 
+        }
+
+        Vector3 proportional = positionDiff;                // P term
+        Vector3 derivative = -droneRB.linearVelocity;       // D term 
 
         Vector3 gravityVector = 9.81f * droneRB.mass * Vector3.up;  // Gravity vector
-        Vector3 pidAdjust = proportional*(float)proportionalConst + integral*(float)integralConst + derivative*(float)derivativeConst;
+
+        Vector3 pidAdjust = proportional * (float)proportionalConst + integral * (float)integralConst + derivative * (float)derivativeConst;
+
         // Add vectors to get movement vector
         Vector3 movementVector = gravityVector + pidAdjust;
 
@@ -85,36 +97,34 @@ public class Controller : MonoBehaviour
         {
             float angleDiffRads = (Vector3.Angle(Vector3.up, droneTransform.up) - 40) / 180.0f * Mathf.PI;
             movementVector = Vector3.RotateTowards(movementVector.normalized, Vector3.up, angleDiffRads, 0.0f) * movementVector.magnitude;
-            Debug.Log(Vector3.Angle(movementVector, Vector3.up));
         }
 
         if (drawDebug)
         {
-            Debug.DrawRay(droneTransform.position, smoothedTarget - droneTransform.position, Color.red);
             Debug.DrawRay(droneTransform.position, movementVector, Color.green);
-
         }
 
         // Get rotational acceleration
         Vector3 rotationalAcceleration = rotationController.RotateTo(movementVector);
 
-        // Get aditional thrust for movement to target
+        // Get additional thrust for movement to target
         double baseThrust = movementVector.magnitude / 4f;
 
-        //droneRB.AddTorque(rotationalAcceleration, ForceMode.rotationalAcceleration);   // ----- USE FOR DEBUGGING
         
+        double rotationInfluence = (droneTransform.position.y < minFlightAltitude) ? 0.0 : 1.0;
+
         // Assign thrust
-        double FRThrust = rotationController.getRotation(rotationalAcceleration)[0] + baseThrust;
-        double FLThrust = rotationController.getRotation(rotationalAcceleration)[1] + baseThrust;
-        double BRThrust = rotationController.getRotation(rotationalAcceleration)[2] + baseThrust;
-        double BLThrust = rotationController.getRotation(rotationalAcceleration)[3] + baseThrust;
+        double FRThrust = (rotationController.getRotation(rotationalAcceleration)[0] * rotationInfluence) + baseThrust;
+        double FLThrust = (rotationController.getRotation(rotationalAcceleration)[1] * rotationInfluence) + baseThrust;
+        double BRThrust = (rotationController.getRotation(rotationalAcceleration)[2] * rotationInfluence) + baseThrust;
+        double BLThrust = (rotationController.getRotation(rotationalAcceleration)[3] * rotationInfluence) + baseThrust;
 
         // Get in terms of power
         FRPower = ThrustToPower(FRThrust);
         FLPower = ThrustToPower(FLThrust);
         BRPower = ThrustToPower(BRThrust);
         BLPower = ThrustToPower(BLThrust);
-        
+
         // Apply power
         FRControl.ApplyPower(FRPower);
         FLControl.ApplyPower(FLPower);

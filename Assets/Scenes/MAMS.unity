@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.6
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 97637a2a763b7f24b8da4e139e4144ca, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -159,7 +159,7 @@ Transform:
   m_GameObject: {fileID: 258899675}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.236817, y: 3.0065331, z: 13.850181}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,8 +179,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dronePrefab: {fileID: 1940983014982786414, guid: 39737e7bd224bb14fbc15a5b9ed60c89, type: 3}
   targetPrefab: {fileID: 7755478886230281510, guid: 8b5c7f87c929d7c4c801d255de9eec46, type: 3}
-  numberOfDrones: 51
-  floorSpacing: 2.5
+  numberOfDrones: 97
+  floorSpacing: 5
   formationManager: {fileID: 258899680}
 --- !u!114 &258899680
 MonoBehaviour:
@@ -196,12 +196,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneTargets: []
   spacing: 4
-  centerOffset: {x: 0, y: 15, z: 0}
+  centerOffset: {x: 0, y: 80, z: 0}
   formations:
-  - {fileID: 2800000, guid: 899eca4da7a38e0408e1d224655f3bc3, type: 3}
-  - {fileID: 2800000, guid: ee03a9e1c1574d442878261c77f284e4, type: 3}
-  - {fileID: 2800000, guid: fe3b73ecc4b59524295c189b77f7a8a3, type: 3}
-  transitionSpeed: 5
+  - {fileID: 2800000, guid: 754829fb0dd767e409464fdff9fcb97b, type: 3}
+  - {fileID: 2800000, guid: 96582e8071b3d9042a4f39d8620c6249, type: 3}
+  transitionSpeed: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,13 +288,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08715578, y: 0, z: 0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 5, z: -40}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 75, z: -85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1871562863}
-  m_LocalEulerAnglesHint: {x: -10, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,14 +552,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868123420}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.043619405, y: 0, z: 0, w: 0.9990483}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1635885106}
   m_Father: {fileID: 1871562863}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5, y: 0, z: 0}
 --- !u!1 &1556236058
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +636,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 500, y: 1, z: 500}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 868123421}

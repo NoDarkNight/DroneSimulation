@@ -28,7 +28,7 @@ public class DroneSpawner : MonoBehaviour
         {
             // 1. Ground position
             float x = (i % rows) * floorSpacing;
-            float z = (i / rows) * floorSpacing;
+            float z = (i / rows) * floorSpacing + 50f;
             Vector3 spawnPos = new Vector3(x, 0.5f, z); 
 
             // 2. Instantiate Drone
